@@ -67,11 +67,16 @@ udp_in.on('message', function(data, rinfo) {
       data.client.connections.local.address, data.client.connections.local.port, data.client.connections.public.address, data.client.connections.public.port);
     remoteName = data.client.name;
     var punch = { type: 'punch', from: clientName, to: remoteName };
+    /*
     for (var con in data.client.connections) {
       doUntilAck(1000, function() {
         send(data.client.connections[con], punch);
       });
     }
+    */
+    doUntilAck(1000, function() {
+      send(data.client.connections.public, punch);
+    });
   } else if (data.type == 'punch' && data.to == clientName) {
     var ack = { type: 'ack', from: clientName };  
     console.log("# got punch, sending ACK");
